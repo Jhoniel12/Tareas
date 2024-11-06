@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de 15 segundos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #contador {
+            font-size: 40px;
+            font-weight: bold;
+        }
+        #continuar {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        #continuar.activado {
+            opacity: 1;
+            cursor: pointer;
+        }
+        #flixy {
+            color: red;
+            font-size: 48px;
+            font-weight: bold;
+        }
+        #informacion {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        .seccion {
+            display: block;
+            margin-top: 30px;
+        }
+        .seccion img {
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .seccion h3 {
+            font-size: 24px;
+            color: #333;
+        }
+        .seccion p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+            text-align: justify;
+            margin: 15px 0;
+        }
+        #mensaje-contador {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="flixy">FLIXY</h1>
+    <p id="contador">15</p>
+    <p id="mensaje-contador">Espere...</p>
+
+    <div id="informacion">
+        <!-- Secciones de información aleatoria -->
+        <div class="seccion" id="seccion-1">
+            <h3 id="titulo-seccion-1">Cargando...</h3>
+            <p id="texto-seccion-1">Cargando...</p>
+            <img id="imagen-seccion-1" src="" alt="Imagen de la sección">
+        </div>
+
+        <div class="seccion" id="seccion-2">
+            <h3 id="titulo-seccion-2">Cargando...</h3>
+            <p id="texto-seccion-2">Cargando...</p>
+            <img id="imagen-seccion-2" src="" alt="Imagen de la sección">
+        </div>
+
+        <div class="seccion" id="seccion-3">
+            <h3 id="titulo-seccion-3">Cargando...</h3>
+            <p id="texto-seccion-3">Cargando...</p>
+            <img id="imagen-seccion-3" src="" alt="Imagen de la sección">
+        </div>
+
+        <div class="seccion" id="seccion-4">
+            <h3 id="titulo-seccion-4">Cargando...</h3>
+            <p id="texto-seccion-4">Cargando...</p>
+            <img id="imagen-seccion-4" src="" alt="Imagen de la sección">
+        </div>
+    </div>
+
+    <button id="continuar" disabled>Espere...</button>
+
+    <script>
+        // Datos aleatorios para las secciones
+        const secciones = [
+            {
+                titulo: "El misterio de los agujeros negros",
+                texto: "Los agujeros negros son una de las entidades más fascinantes y misteriosas del universo. Se trata de regiones del espacio donde la gravedad es tan intensa que ni siquiera la luz puede escapar. Formados por el colapso de estrellas masivas, los agujeros negros pueden variar en tamaño, desde los más pequeños, llamados agujeros negros estelares, hasta los supermasivos, que se encuentran en los centros de las galaxias.",
+                imagen: "https://via.placeholder.com/600x300?text=Agujeros+Negros"
+            },
+            {
+                titulo: "Descubrimientos arqueológicos sorprendentes",
+                texto: "En los últimos años, los arqueólogos han hecho algunos descubrimientos sorprendentes que han cambiado nuestra comprensión de la historia antigua. Desde tumbas de faraones egipcios hasta ciudades perdidas en la jungla de América Central, cada hallazgo revela nuevas facetas de civilizaciones antiguas.",
+                imagen: "https://via.placeholder.com/600x300?text=Descubrimiento+Arqueológico"
+            },
+            {
+                titulo: "Curiosidades sobre el cambio climático",
+                texto: "El cambio climático es uno de los mayores desafíos que enfrenta la humanidad en la actualidad. Aunque el aumento de la temperatura global es un fenómeno ampliamente reconocido, existen muchos aspectos curiosos y sorprendentes que no siempre se mencionan. Por ejemplo, se sabe que los cambios en los patrones climáticos están afectando la migración de especies animales, alterando sus rutas tradicionales.",
+                imagen: "https://via.placeholder.com/600x300?text=Cambio+Climático"
+            },
+            {
+                titulo: "Maravillas naturales que debes visitar",
+                texto: "El planeta está lleno de maravillas naturales que asombran a quienes las visitan. Desde las impresionantes Cataratas del Iguazú en Sudamérica hasta la majestuosa Gran Barrera de Coral en Australia, la Tierra ofrece paisajes que parecen sacados de un sueño. Uno de los destinos más sorprendentes es el Parque Nacional Yellowstone en los Estados Unidos, conocido por sus géiseres y fuentes termales.",
+                imagen: "https://via.placeholder.com/600x300?text=Maravillas+Naturales"
+            },
+            {
+                titulo: "Avances en la inteligencia artificial",
+                texto: "La inteligencia artificial está avanzando a pasos agigantados. Desde la automatización de procesos en industrias hasta la creación de sistemas capaces de aprender de sus propios errores, la IA está cambiando la forma en que interactuamos con la tecnología. Uno de los avances más sorprendentes es la creación de algoritmos que pueden imitar el proceso de toma de decisiones humanas.",
+                imagen: "https://via.placeholder.com/600x300?text=IA"
+            },
+            {
+                titulo: "Las grandes civilizaciones de la historia",
+                texto: "A lo largo de la historia, han existido civilizaciones que han dejado una huella profunda en la humanidad. Desde el antiguo Egipto hasta la civilización maya, cada una de estas culturas ha contribuido al desarrollo de la ciencia, la tecnología y el arte. Las grandes civilizaciones han influido en la política, la religión y las costumbres de las sociedades modernas.",
+                imagen: "https://via.placeholder.com/600x300?text=Civilizaciones"
+            }
+        ];
+
+        // Función para seleccionar contenido aleatorio para las secciones
+        function cargarInformacionAleatoria() {
+            // Seleccionar aleatoriamente 4 secciones
+            const seleccionadas = [];
+            while (seleccionadas.length < 4) {
+                const indice = Math.floor(Math.random() * secciones.length);
+                if (!seleccionadas.includes(indice)) {
+                    seleccionadas.push(indice);
+                }
+            }
+
+            // Asignar contenido a las secciones
+            seleccionadas.forEach((indice, i) => {
+                const seccion = secciones[indice];
+                document.getElementById(`titulo-seccion-${i + 1}`).textContent = seccion.titulo;
+                document.getElementById(`texto-seccion-${i + 1}`).textContent = seccion.texto;
+                document.getElementById(`imagen-seccion-${i + 1}`).src = seccion.imagen;
+            });
+        }
+
+        // Inicializar la página con contenido aleatorio
+        cargarInformacionAleatoria();
+
+        // Contador de 15 segundos
+        let tiempo = 15;
+        const contadorElement = document.getElementById('contador');
+        const botonContinuar = document.getElementById('continuar');
+        const mensajeContador = document.getElementById('mensaje-contador');
+
+        const actualizarContador = () => {
+            if (tiempo > 0) {
+                tiempo--;
+                contadorElement.textContent = tiempo;
+            } else {
+                mensajeContador.textContent = "Diríjase abajo";
+                botonContinuar.textContent = 'Continuar';
+                botonContinuar.disabled = false;
+                botonContinuar.classList.add('activado');
+            }
+        };
+
+        // Redirigir cuando se hace clic en el botón
+        botonContinuar.addEventListener('click', () => {
+            window.location.href = 'https://www.ejemplo.com'; // Reemplaza esta URL con la de tu elección
+        });
+
+        setInterval(actualizarContador, 1000); // Actualizar cada segundo
+    </script>
+
+</body>
+</html>
